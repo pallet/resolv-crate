@@ -5,8 +5,8 @@
    [pallet.stevedore :as stevedore]
    [pallet.template :as template]
    [pallet.utils :as utils]
-   [clojure.contrib.string :as string]
-   [clojure.contrib.logging :as logging]))
+   [clojure.string :as string]
+   [clojure.tools.logging :as logging]))
 
 (defn- write-key-value [key value]
   (str (name key) " " (utils/as-string value) \newline))
@@ -22,7 +22,7 @@
 (defn write [domainname nameservers searches sortlist options]
   (str (write-key-value
         "domain" (or domainname (str (stevedore/script (~lib/dnsdomainname)))))
-       (string/map-str (partial write-key-value "nameserver") nameservers)
+       (string/join (map (partial write-key-value "nameserver") nameservers))
        (when (first searches)
          (write-key-value "search" (string/join " " searches)))
        (when (first sortlist)
@@ -50,7 +50,7 @@
            (concat r1 (ensure-vector (:sortlist opt2)))
            (merge opt1 (dissoc (dissoc opt2 :search) :sortlist))]]
     (if-not (or (nil? d1) (nil? d2) (= d1 d2))
-      (logging/warn (str "Trying to set domain name to two distinct values")))
+      (logging/warn "Trying to set domain name to two distinct values"))
     r))
 
 (action/def-aggregated-action resolv

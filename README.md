@@ -2,7 +2,7 @@
 
 This a crate to install and run resolv via [Pallet](http://pallet.github.com/pallet).
 
-[Release Notes](https://github.com/pallet/resolv-crate/blob/master/ReleaseNotes.md)
+[Release Notes](ReleaseNotes.md)
 
 ## Support
 
